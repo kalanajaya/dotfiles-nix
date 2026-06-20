@@ -1,0 +1,4 @@
+# .gitignore
+# Exclude hardware configuration if keeping repo generic
+nixos/hardware-configuration.nix 
+secrets/
