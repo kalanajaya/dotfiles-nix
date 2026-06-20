@@ -12,7 +12,7 @@
       ./modules/share.nix
       ./modules/apps.nix
       ./modules/boot.nix
-      <home-manager/nixos>
+      #<home-manager/nixos>
     ];
 
 

@@ -21,10 +21,9 @@
     shellAliases = {
       v = "nvim";
       ff = "fastfetch";
-      nrs = "sudo nixos-rebuild switch";
-      hms = "home-manager switch";
-      nixos = "sudo -E nvim /etc/nixos/";
-      home = "nvim ~/.config/home-manager/";
+      nrs = "sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
+      hms = "home-manager switch --flake ~/dotfiles#yourusername";
+      nixos = "nvim ~/dotfiles";
     };
 
     history = {

@@ -5,6 +5,12 @@
   nixpkgs.config = {
     allowUnfree = true;
     android_sdk.accept_license = true;
+
+    # Add this block to allow LibreWolf to compile:
+    permittedInsecurePackages = [
+      "librewolf-151.0.2-1"
+      "librewolf-unwrapped-151.0.2-1"
+    ];
   };
 
   # List packages installed in system profile. To search, run:

@@ -15,14 +15,16 @@
       system = "x86_64-linux";
       modules = [
         ./nixos/configuration.nix
-      ];
-    };
 
-    # For standalone Home Manager configurations
-    homeConfigurations."yourusername" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      modules = [
-        ./home-manager/home.nix
+        # This replaces the legacy <home-manager/nixos> import cleanly:
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          
+          # Inline your home.nix config or import it directly here
+          home-manager.users.ravenousbyte = import ./home-manager/home.nix;
+        }
       ];
     };
   };
