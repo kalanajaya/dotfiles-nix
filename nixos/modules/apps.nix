@@ -6,11 +6,10 @@
     allowUnfree = true;
     android_sdk.accept_license = true;
 
-    # Add this block to allow LibreWolf to compile:
     permittedInsecurePackages = [
-      "librewolf-151.0.2-1"
-      "librewolf-unwrapped-151.0.2-1"
-    ];
+                "librewolf-bin-151.0.1-2"
+              ];
+    
   };
 
   # List packages installed in system profile. To search, run:
@@ -43,7 +42,6 @@
     tree-sitter
     stylua
     markdownlint-cli
-    git
     gh
     alejandra
     nixd
@@ -67,7 +65,7 @@
     discord
     neovim                   # Your primary IDE/Text Editor
     obsidian                 # Markdown knowledge base application
-    librewolf                # Privacy-focused browser fork of Firefox
+    librewolf-bin               # Privacy-focused browser fork of Firefox
 
     # --- MULTIMEDIA ---
     vlc                      # Media player
@@ -81,8 +79,6 @@
     unzip
     nodejs
     gnumake
-    unzip
-    wget
 
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget

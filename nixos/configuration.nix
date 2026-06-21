@@ -8,7 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./modlues/garbage.nix   # garbage collection and optimizations
+      ./modules/garbage.nix   # garbage collection and optimizations
       ./modules/network.nix
       ./modules/share.nix
       ./modules/apps.nix
@@ -17,6 +17,8 @@
     ];
 
 
+  # Enable experimental features globally
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   
   # Enable KWallet PAM unlocking on login

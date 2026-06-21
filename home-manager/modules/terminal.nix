@@ -24,6 +24,7 @@
       nrs = "sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
       hms = "home-manager switch --flake ~/dotfiles#yourusername";
       nixos = "nvim ~/dotfiles";
+      nixup = "nix flake update --flake ~/dotfiles";
     };
 
     history = {
