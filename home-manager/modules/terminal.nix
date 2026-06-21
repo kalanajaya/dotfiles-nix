@@ -22,7 +22,7 @@
       v = "nvim";
       ff = "fastfetch";
       nrs = "sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
-      hms = "home-manager switch --flake ~/dotfiles#yourusername";
+      hms = "home-manager switch --flake ~/dotfiles#ravenousbyte@nixos";
       nixos = "nvim ~/dotfiles";
       nixup = "nix flake update --flake ~/dotfiles";
     };

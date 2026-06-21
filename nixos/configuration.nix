@@ -137,12 +137,18 @@
   xdg.portal = {
   enable = true;
   extraPortals = [ 
-      pkgs.xdg-desktop-portal-hyprland # Handles screenshots, screen sharing, and windows
-      pkgs.kdePackages.xdg-desktop-portal-kde # Crucial for Dolphin and Qt apps
+      #pkgs.xdg-desktop-portal-hyprland # Handles screenshots, screen sharing, and windows
       pkgs.xdg-desktop-portal-gtk      # Handles file choosers and app configurations
     ];
-  config.common.default = "*";
-};
+    /*
+  config = {
+      common = {
+        default = [ "gtk" ];
+        "org.freedesktop.impl.portal.Screencast" = [ "hyprland" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "hyprland" ];
+      };
+    };*/
+  };
 # 3. Enable DConf (Required for many GUI apps to save their settings)
   programs.dconf.enable = true;
 
@@ -158,16 +164,4 @@
      
 ];
 
-  # Natively generate a universal application menu structure directly into /etc/xdg/menus/
-  environment.etc."xdg/menus/applications.menu".text = ''
-    <!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
-      "http://www.freedesktop.org/standards/menu-spec/menu-1.0.dtd">
-    <Menu>
-      <Name>Applications</Name>
-      <MergeFile type="parent">/etc/xdg/menus/applications.menu</MergeFile>
-      <Include>
-        <All/>
-      </Include>
-    </Menu>
-  '';
 }
