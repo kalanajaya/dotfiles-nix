@@ -13,6 +13,7 @@
       ./modules/share.nix
       ./modules/apps.nix
       ./modules/boot.nix
+      ./modules/nvidia.nix
       #<home-manager/nixos>
     ];
 
