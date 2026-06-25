@@ -676,4 +676,23 @@
         },
     )
   '';
+
+  # -------------------------------------------------------------
+  # MPD to MPRIS Bridge Daemon (Corrected Option Paths)
+  # -------------------------------------------------------------
+  services.mpd-mpris = {
+    enable = true;
+    
+    # We alter the package wrapper directly to parse your exact local path strings
+    package = pkgs.symlinkJoin {
+      name = "mpd-mpris-wrapped";
+      paths = [ pkgs.mpd-mpris ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/mpd-mpris \
+          --add-flags "--host ${config.home.homeDirectory}/.config/mpd/socket"
+      '';
+    };
+  };
+
 }

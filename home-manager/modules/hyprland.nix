@@ -3,17 +3,31 @@
 {
 
   xdg.configFile."hypr".source = ../dotfiles/hypr;
-  xdg.configFile."hypr/scripts/random_wall.sh" = {
-    source = ../dotfiles/hypr/scripts/random_wall.sh; # Path to the file in your dotfiles repo
-    executable = true;                      # This forces the +x permission bit
-  };
   xdg.configFile."waybar".source = ../dotfiles/waybar;
 
 
-  #wayland.windowManager.hyprland.enable = true; # enable Hyprland
+  home.packages = with pkgs; [
+    clipman
+    wl-clipboard
+    awww
+    mpd-mpris
+    rofi
+    grim
 
-  # Optional, hint Electron apps to use Wayland:
-  home.sessionVariables.NIXOS_OZONE_WL = "1";
+    # Media and Hardware Control Utilities
+    wireplumber      # Provides 'wpctl' for audio control
+    brightnessctl    # Controls screen brightness levels
+    playerctl        # Controls MPRIS media players (like MPD, Spotify)
+
+  ];
+
+  programs.waybar = {
+  enable = true;
+  systemd = {
+    enable = true;
+    targets = [ "hyprland-session.target" ];
+  };
+};
 
 #######################################################
 ########   SWAYNC 

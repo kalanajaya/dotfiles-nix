@@ -9,7 +9,7 @@
 */
 
 {
-  description = "System and Home Manager Configuration Flake";
+  description = "Hyprland + Nixos";
 
   inputs = {
 

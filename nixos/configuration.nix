@@ -14,17 +14,15 @@
       ./modules/apps.nix
       ./modules/boot.nix
       ./modules/nvidia.nix
+      ./modules/de.nix
       #<home-manager/nixos>
     ];
 
-
   # Enable experimental features globally
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   
   # Enable KWallet PAM unlocking on login
   security.pam.services.login.kwallet.enable = true;
-
 
   # Set your time zone.
   time.timeZone = "Asia/Colombo";
@@ -35,10 +33,6 @@
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -85,10 +79,7 @@
   # Install firefox.
   programs.firefox.enable = true;
 
-  # Enable Hyprland Core Backend
-  programs.hyprland.enable = true;
-
-
+  
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -98,7 +89,6 @@
   # };
 
   # List services that you want to enable:
-
 
   # --- HARDWARE & ASUS LAPTOP CONTROL ---
   # Enables asusctl and rog-control-center for your ASUS TUF F15
@@ -112,16 +102,10 @@
     "d /var/lib/asusd 0755 root root -"
   ];
 
-
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  # on your system were taken.
   system.stateVersion = "26.05"; # Did you read the comment?
-
 
   fonts.packages = with pkgs; [
     # Install specific nerd fonts (NixOS 25.05+ syntax)
@@ -132,37 +116,4 @@
     font-awesome
   ];
 
-# Enable global XDG menu generation (Fixes application menu missing errors)
-  xdg.menus.enable = true;
-
-  xdg.portal = {
-  enable = true;
-  extraPortals = [ 
-      #pkgs.xdg-desktop-portal-hyprland # Handles screenshots, screen sharing, and windows
-      pkgs.xdg-desktop-portal-gtk      # Handles file choosers and app configurations
-    ];
-    /*
-  config = {
-      common = {
-        default = [ "gtk" ];
-        "org.freedesktop.impl.portal.Screencast" = [ "hyprland" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "hyprland" ];
-      };
-    };*/
-  };
-# 3. Enable DConf (Required for many GUI apps to save their settings)
-  programs.dconf.enable = true;
-
-  # 4. Essential System Services
-  security.polkit.enable = true; # Allows GUI apps to ask for sudo passwords
-  services.gvfs.enable = true;   # Required for Dolphin to mount USBs and trash bins
-  services.udisks2.enable = true;
-
-# 2. Install shared-mime-info so the system can read file signatures (.mp4, .rar, etc)
-  environment.systemPackages = with pkgs; [
-    shared-mime-info
-    xdg-utils # Provides CLI tools like xdg-mime and xdg-open
-     
-];
-
-}
+  }

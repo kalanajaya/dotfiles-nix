@@ -26,15 +26,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    pkgs.wl-clipboard
-    pkgs.awww
-    pkgs.mpd-mpris
-
-    # Media and Hardware Control Utilities
-    pkgs.wireplumber      # Provides 'wpctl' for audio control
-    pkgs.brightnessctl    # Controls screen brightness levels
-    pkgs.playerctl        # Controls MPRIS media players (like MPD, Spotify)
-
+    
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -99,21 +91,4 @@
   xdg.configFile."nvim".source = ./dotfiles/nvim;
   xdg.configFile."kitty".source = ./dotfiles/kitty;
 
-  # -------------------------------------------------------------
-  # MPD to MPRIS Bridge Daemon (Corrected Option Paths)
-  # -------------------------------------------------------------
-  services.mpd-mpris = {
-    enable = true;
-    
-    # We alter the package wrapper directly to parse your exact local path strings
-    package = pkgs.symlinkJoin {
-      name = "mpd-mpris-wrapped";
-      paths = [ pkgs.mpd-mpris ];
-      buildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/mpd-mpris \
-          --add-flags "--host ${config.home.homeDirectory}/.config/mpd/socket"
-      '';
-    };
-  };
-}
+  }
