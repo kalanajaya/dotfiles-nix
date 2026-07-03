@@ -37,8 +37,8 @@
         "capslock": true,
         "format": "{name} {icon}",
         "format-icons": {
-            "locked": "",
-            "unlocked": ""
+            "locked": "🧿",   // Ward Raised: Active protective gaze
+            "unlocked": "🕳️"   // Ward Lowered: Closed down to the void        
         }
     },
     "sway/mode": {
@@ -49,7 +49,8 @@
     "on-click": "activate",
     "on-scroll-up": "hl.dsp.focus({ workspace = 'e+1' })",
     "on-scroll-down": "hl.dsp.focus({ workspace = 'e-1' })"
-},
+    },
+
     "hyprland/scratchpad": {
         "format": "{icon} {count}",
         "show-empty": false,
@@ -110,16 +111,26 @@
         "format-icons": ["🌑", "🌘", "🌗", "🌖", "🌕", "☀️"]
     },
     "battery": {
-        "states": {
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{capacity}% {icon}",
-        "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% 🔌",
-        "format-plugged": "{capacity}% ⚡",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["🪫", "🔋"]
+      "states": {
+        "good": 95,
+        "warning": 30,
+        "critical": 15
+      },
+      "format": "{icon} {capacity}% ({time})",
+      "format-charging": "⚡ {capacity}% ({time})",
+      "format-plugged": "🔌 {capacity}%",
+    
+      // The explicit layout toggle
+      "format-alt": "{icon} {time} @ {power:0.1f}W",
+      "on-click": "pkill -RTMIN+1 waybar", 
+    
+      "format-time": "{H}h {M}m",
+      "format-icons": ["🪫", "🪫", "🔋", "🔋", "🔋"],
+    
+      // Tells the system how often to poll the battery files (Default is 60s, change to 2s)
+      "interval": 2,
+      "tooltip": true,
+      "tooltip-format": "Power draw: {power:0.1f}W\nCycles: {cycles}"
     },
     "power-profiles-daemon": {
       "format": "{icon}",

@@ -21,7 +21,7 @@
     shellAliases = {
       v = "nvim";
       ff = "fastfetch";
-      nrs = "sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
+      nrs = "sudo nixos-rebuild switch --flake ~/dotfiles#nixos && nvd diff /run/current-system /run/booted-system";
       hms = "home-manager switch --flake ~/dotfiles#ravenousbyte@nixos";
       nixos = "nvim ~/dotfiles";
       nixup = "nix flake update --flake ~/dotfiles";

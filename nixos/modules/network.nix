@@ -10,6 +10,18 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  networking.firewall = {
+    enable = true;
+
+    # Open ports for Syncthing
+    allowedTCPPorts = [ 8384 22000 ];
+    allowedUDPPorts = [ 22000 21027 ];
+
+    # Open a range for KDE Connect
+    allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+    allowedUDPPortRanges = [ { from = 1714; to = 1764; } ];
+  };
+
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -28,6 +40,10 @@
 
   # Enable the Blueman applet mechanism
   services.blueman.enable = true;
+
+  programs.kdeconnect = {
+    enable = true;
+  };
 
 }
 

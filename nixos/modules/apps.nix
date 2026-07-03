@@ -13,6 +13,10 @@
     
   };
 
+  # Enable appimage support
+  programs.appimage.enable = true;
+
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -22,7 +26,6 @@
     wl-clipboard             # Required for Waydroid clipboard sharing
     fastfetch
     hyprlauncher
-    waybar
     wineWow64Packages.stable
     kdePackages.ark  # The core graphical archiving tool
     unrar            # Unfree utility to unpack .rar files natively
@@ -32,6 +35,7 @@
     protonup-qt              # Graphical UI to easily download Proton-GE / Wine-GE layers for Steam & Lutris
     mangohud                 # Vulkan/OpenGL performance overlay for monitoring FPS & temperatures
     vulkan-tools             # Helpful for verification (includes vkcube)
+    goverlay
 
     # --- MOBILE & WEB DEVELOPMENT ---
     flutter                  # Flutter SDK for app development
@@ -63,11 +67,8 @@
 
     # --- TERMINAL, NOTES & BROWSERS ---
     alacritty
-    discord
     neovim                   # Your primary IDE/Text Editor
-    obsidian                 # Markdown knowledge base application
-    librewolf-bin               # Privacy-focused browser fork of Firefox
-
+    
     # --- MULTIMEDIA ---
     vlc                      # Media player
     rmpc                     # Rich Music Player Client (MPD client)
@@ -80,6 +81,10 @@
     unzip
     nodejs
     gnumake
+    nvd # to see report about nix build process
+    
+    #btop
+    (btop.override { cudaSupport = true; }) # with gpu support
 
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
@@ -91,6 +96,11 @@
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  };
+
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
   };
 
 # --- VIRTUALIZATION & CONTAINERS ---
@@ -106,18 +116,43 @@
   virtualisation.docker.enable = true;
 
   # --- LOCAL SEARXNG INSTANCE ---
+
+  # 1. Automate the generation and hardening of the secret file
+  system.activationScripts.searxng-secret = {
+    text = ''
+      if [ ! -f /var/lib/secrets/searxng.env ]; then
+        ${pkgs.coreutils}/bin/mkdir -p /var/lib/secrets
+        echo "SEARXNG_SECRET_KEY=$(${pkgs.openssl}/bin/openssl rand -hex 32)" > /var/lib/secrets/searxng.env
+        ${pkgs.coreutils}/bin/chmod 600 /var/lib/secrets/searxng.env
+      fi
+    '';
+  };
   services.searx = {
     enable = true;
+    environmentFile = "/var/lib/secrets/searxng.env";
     package = pkgs.searxng;
     settings = {
       server = {
         port = 8888;
         bind_address = "127.0.0.1";
-        secret_key = "change-this-to-a-long-random-string-for-security";
+        secret_key = "@SEARXNG_SECRET_KEY@";
       };
       ui = {
         theme = "oscar";
       };
     };
   };
+
+  # Enable Virt-Manager / libvirtd daemon
+virtualisation.libvirtd = {
+  enable = true;
+  qemu = {
+    package = pkgs.qemu_kvm;
+    runAsRoot = false; # Runs QEMU as an unprivileged user for security
+    swtpm.enable = true; # Required for Windows 11 TPM emulation
+  };
+};
+
+# Install Virt-Manager GUI tool if you want a visual interface
+programs.virt-manager.enable = true;
 }

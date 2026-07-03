@@ -1,11 +1,6 @@
 { config, pkgs, ... }: 
 
 {
-
-  xdg.configFile."hypr".source = ../dotfiles/hypr;
-  xdg.configFile."waybar".source = ../dotfiles/waybar;
-
-
   home.packages = with pkgs; [
     clipman
     wl-clipboard
@@ -18,6 +13,7 @@
     wireplumber      # Provides 'wpctl' for audio control
     brightnessctl    # Controls screen brightness levels
     playerctl        # Controls MPRIS media players (like MPD, Spotify)
+    pavucontrol
 
   ];
 
@@ -134,4 +130,42 @@
       }
     '';  
   };
+
+  ##########################################
+#          hypridle
+##########################################
+
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        lock_cmd = "pidof hyprlock || hyprlock";       # avoid starting multiple hyprlock instances
+        before_sleep_cmd = "loginctl lock-session";    # lock before suspend
+        after_sleep_cmd = "hyprctl dispatch dpms on";  # turn on display after wake
+      };
+
+      listener = [
+      {
+        timeout = 150;                                # 2.5 min
+        on-timeout = "brightnessctl set 10%-";        # dim monitor backlight
+        on-resume = "brightnessctl set +10%";         # restore monitor backlight
+      }
+      {
+        timeout = 300;                                # 5 min
+        on-timeout = "loginctl lock-session";         # lock screen using systemd locker
+      }
+      {
+        timeout = 330;                                # 5.5 min
+        on-timeout = "hyprctl dispatch dpms off";     # turn off screen
+        on-resume = "hyprctl dispatch dpms on";       # turn on screen
+      }
+      {
+        timeout = 600;                                # 10 min
+        on-timeout = "systemctl suspend-then-hibernate";             # suspend system
+      }
+    ];
+  };
+  };
 }
+
+

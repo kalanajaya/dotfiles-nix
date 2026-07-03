@@ -1,8 +1,1 @@
-hl.env("QT_QPA_PLATFORM", "wayland;xcb")
-hl.env("GDK_BACKEND", "wayland,x11")
-hl.env("XCURSOR_THEME", "Breeze_Snow")
-hl.env("XCURSOR_SIZE", "24")
-hl.env("XDG_MENU_PREFIX", "")
-hl.env("HYPRCURSOR_SIZE", "24")
-hl.env("GTK_THEME", "Adwaita-dark")
-hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
+

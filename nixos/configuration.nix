@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
@@ -15,6 +11,8 @@
       ./modules/boot.nix
       ./modules/nvidia.nix
       ./modules/de.nix
+      ./modules/fonts.nix
+      ./modules/power.nix
       #<home-manager/nixos>
     ];
 
@@ -66,7 +64,7 @@
   users.users."ravenousbyte" = {
     isNormalUser = true;
     description = "Kalana Jayawardena";
-    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "input" "libvirtd" ];
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird
@@ -96,24 +94,14 @@
     enable = true;
   };
 
+  services.supergfxd.enable = true;
+
   # Provision state paths so systemd namespaces can instantiate cleanly
   systemd.tmpfiles.rules = [
     "d /etc/asusd 0755 root root -"
     "d /var/lib/asusd 0755 root root -"
   ];
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken.
-  system.stateVersion = "26.05"; # Did you read the comment?
+  system.stateVersion = "26.05";
 
-  fonts.packages = with pkgs; [
-    # Install specific nerd fonts (NixOS 25.05+ syntax)
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.fira-code
-    
-    # Optional: Font Awesome icons if your waybar config explicitly relies on them
-    font-awesome
-  ];
-
-  }
+}

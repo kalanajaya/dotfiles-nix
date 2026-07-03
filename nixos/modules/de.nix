@@ -14,13 +14,17 @@
   ################################################################################
 
   # Enable Hyprland Core Backend (Automagically adds xdg-desktop-portal-hyprland)
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
 
-  environment.systemPackages = [
-    # ... other packages
-    pkgs.kitty # required for the default Hyprland config
+  environment.systemPackages = with pkgs; [
+    waybar 
+    kitty # required for the default Hyprland config
   ];
 
   # Optional, hint Electron apps to use Wayland:
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
-}
+
+  }

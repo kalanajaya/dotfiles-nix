@@ -45,7 +45,9 @@ window#waybar.hidden {
 #power-profiles-daemon,
 #mpd,
 #custom-notification,
-#custom-power {
+#custom-power,
+#keyboard-state {
+  /* Added here to match uniform padding, margins, and border radius */
   background-color: #24283b;
   /* Sleek individual dark capsules */
   color: #a9b1d6;
@@ -53,6 +55,8 @@ window#waybar.hidden {
   margin: 5px 3px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Smoothes out the transition during toggle swaps */
 }
 
 /* =============================================================================
@@ -222,4 +226,26 @@ window#waybar.hidden {
 
 #power-profiles-daemon.power-saver {
   color: #9ece6a;
+}
+
+/* =============================================================================
+ * Cosmic Nazar Ward Indicator (Caps Lock)
+ * ============================================================================= */
+
+/* Ward Active - Caps Lock is ON (Vibrant Blue & Tokyo Night Cyan Border Glow) */
+#keyboard-state.locked {
+  background-color: #1b2845;
+  /* Deep cosmic protective blue */
+  color: #70ffff;
+  /* Incandescent neon cyan text */
+  border: 1px solid #70ffff;
+  box-shadow: 0 0 6px rgba(112, 255, 255, 0.35);
+}
+
+/* Ward Collapsed - Caps Lock is OFF (Blends seamlessly with your standard modules) */
+#keyboard-state.unlocked {
+  background-color: #24283b;
+  /* standard capsule matching tone */
+  color: #565f89;
+  /* Faded text hue when inactive */
 }

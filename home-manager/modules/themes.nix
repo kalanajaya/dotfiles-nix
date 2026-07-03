@@ -8,38 +8,38 @@
     lxappearance        # Optional: graphical tool to quickly preview themes
   ];
 
-  # Configure GTK themes
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome-themes-extra;
-    };
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
-    cursorTheme = {
-      name = "Bibata-Modern-Classic";
-      package = pkgs.bibata-cursors;
-      size = 24;
-    };
-  };
-
-  # Make cursor theme consistent across system components
-  home.pointerCursor = {
-    gtk.enable = true;
-    x11.enable = true;
-    name = "Bibata-Modern-Classic";
-    package = pkgs.bibata-cursors;
-    size = 24;
-  };
-
-  # Force Qt applications to look like GTK apps
   qt = {
     enable = true;
-    platformTheme.name = "gtk3";
-    style.name = "adwaita-dark";
+    platformTheme.name = "gtk";
   };
-
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Classic";
+    size = 12;
+  };
+  gtk = {
+    enable = true;
+    iconTheme = {
+      package = pkgs.catppuccin-papirus-folders.override {
+        flavor = "macchiato";
+        accent = "maroon";
+      };
+      name = "Papirus-Dark";
+    };
+    colorScheme = "dark";
+    gtk2.extraConfig = ''
+      gtk-cursor-theme-size = 12
+      gtk-cursor-theme-name = "capitaine-cursors"
+    '';
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+      gtk-cursor-theme-size = 12;
+      gtk-cursor-theme-name = "capitaine-cursors";
+    };
+    gtk4.extraConfig = {
+      Settings = ''
+        gtk-application-prefer-dark-theme=1
+      '';
+    };
 }
