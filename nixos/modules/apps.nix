@@ -144,15 +144,22 @@
   };
 
   # Enable Virt-Manager / libvirtd daemon
-virtualisation.libvirtd = {
-  enable = true;
-  qemu = {
-    package = pkgs.qemu_kvm;
-    runAsRoot = false; # Runs QEMU as an unprivileged user for security
-    swtpm.enable = true; # Required for Windows 11 TPM emulation
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = false; # Runs QEMU as an unprivileged user for security
+      swtpm.enable = true; # Required for Windows 11 TPM emulation
+    };
   };
-};
 
-# Install Virt-Manager GUI tool if you want a visual interface
-programs.virt-manager.enable = true;
+  # Install Virt-Manager GUI tool if you want a visual interface
+  programs.virt-manager.enable = true;
+
+  # automatically detect and go into nix shells
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
 }

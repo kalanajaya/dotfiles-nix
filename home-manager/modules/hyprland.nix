@@ -2,18 +2,26 @@
 
 {
   home.packages = with pkgs; [
-    clipman
+    cliphist
+    fuzzel
     wl-clipboard
     awww
     mpd-mpris
     rofi
+    hyprshot
     grim
-
+    slurp
     # Media and Hardware Control Utilities
     wireplumber      # Provides 'wpctl' for audio control
     brightnessctl    # Controls screen brightness levels
     playerctl        # Controls MPRIS media players (like MPD, Spotify)
     pavucontrol
+
+    # Optical Character Recognition (OCR)
+    tesseract
+    
+    # Dependencies for custom scripts
+    xdg-utils # provides xdg-open
 
   ];
 

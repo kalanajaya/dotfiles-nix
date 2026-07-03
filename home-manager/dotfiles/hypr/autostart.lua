@@ -2,8 +2,12 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("${pkgs.kdePackages.polkit-kde-agent-1}/polkit-kde-authentication-agent-1")
 	hl.exec_cmd("swaync &")
 	hl.exec_cmd("waybar &")
-	hl.exec_cmd("wl-paste --type text --watch clipman store --max-items=30 &")
-	hl.exec_cmd("wl-paste --type image --watch clipman store --max-items=30 &")
+
+-- Clipboard: history
+    --hl.exec_cmd("wl-paste --watch cliphist store")
+    hl.exec_cmd("wl-paste --type text --watch bash -c 'cliphist store && qs -c $qsConfig ipc call cliphistService update'")
+    hl.exec_cmd("wl-paste --type image --watch bash -c 'cliphist store && qs -c $qsConfig ipc call cliphistService update'")
+
   	hl.exec_cmd("nm-applet --indicator &")
 	hl.exec_cmd("blueman-applet &")
 	hl.exec_cmd("awww-daemon &")
