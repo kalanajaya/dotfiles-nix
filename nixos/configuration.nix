@@ -1,24 +1,28 @@
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./modules/garbage.nix   # garbage collection and optimizations
-      ./modules/network.nix
-      ./modules/share.nix
-      ./modules/apps.nix
-      ./modules/boot.nix
-      ./modules/nvidia.nix
-      ./modules/de.nix
-      ./modules/fonts.nix
-      ./modules/power.nix
-      #<home-manager/nixos>
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./modules/garbage.nix # garbage collection and optimizations
+    ./modules/network.nix
+    ./modules/share.nix
+    ./modules/apps.nix
+    ./modules/boot.nix
+    ./modules/nvidia.nix
+    ./modules/de.nix
+    ./modules/fonts.nix
+    ./modules/power.nix
+    ./modules/stylix.nix
+
+    #<home-manager/nixos>
+  ];
 
   # Enable experimental features globally
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
   # Enable KWallet PAM unlocking on login
   security.pam.services.login.kwallet.enable = true;
 
@@ -50,7 +54,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -64,10 +68,10 @@
   users.users."ravenousbyte" = {
     isNormalUser = true;
     description = "Kalana Jayawardena";
-    extraGroups = [ "networkmanager" "wheel" "docker" "adbusers" "input" "libvirtd" ];
+    extraGroups = ["networkmanager" "wheel" "docker" "adbusers" "input" "libvirtd"];
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
+      #  thunderbird
     ];
     shell = pkgs.zsh; # Sets Zsh as default system shell
   };
@@ -77,7 +81,6 @@
   # Install firefox.
   programs.firefox.enable = true;
 
-  
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -104,4 +107,19 @@
 
   system.stateVersion = "26.05";
 
+  xdg.portal = {
+    enable = true;
+    config = {
+      hyprland = {
+        default = [
+          "hyprland"
+          "kde"
+        ];
+      };
+    };
+    configPackages = with pkgs; [
+      xdg-desktop-portal-hyprland
+      kdePackages.xdg-desktop-portal-kde
+    ];
+  };
 }

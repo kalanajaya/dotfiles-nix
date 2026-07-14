@@ -9,12 +9,21 @@
      onlyoffice-desktopeditors
      discord
      xournalpp
+     krita
 
 
   ];
   
   services.syncthing = {
     enable = true;
+  };
+
+  # automatically detect and go into nix shells
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true; # Set to true if you use Zsh
+    enableBashIntegration = true; # Set to true if you use Bash
+    nix-direnv.enable = true;
   };
 
 }

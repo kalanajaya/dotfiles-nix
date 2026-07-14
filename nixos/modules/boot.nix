@@ -4,14 +4,23 @@
     # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.extraFiles = {
-    "EFI/Microsoft/Boot/bootmgfw.efi" = "/boot/windows-efi/EFI/Microsoft/Boot/bootmgfw.efi";
-  };
   boot.loader.systemd-boot.configurationLimit = 5; # Keeps your boot menu clean
   boot.loader.timeout = 5; # Gives you 5 seconds to choose between NixOS and Windows
+  boot.loader.systemd-boot.consoleMode = "max";
+  
+  # for finding windows boot partition (working handle) and troubleshooting
+  #boot.loader.systemd-boot.edk2-uefi-shell.enable = true;
+
+  # Chainload Windows via its native ESP (Replace HD0b with your working handle)
+  boot.loader.systemd-boot.windows."11" = {
+    title = "Windows 11";
+    efiDeviceHandle = "HD0b"; 
+    sortKey = "z_windows"; 
+  };
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
+
 
 
   # Early initrd ACPI table override for hardware button sleep wake-up fix

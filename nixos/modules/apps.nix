@@ -1,78 +1,110 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   # Allow unfree packages and explicitly sign off on the standard Google Android SDK licenses
   nixpkgs.config = {
     allowUnfree = true;
     android_sdk.accept_license = true;
 
     permittedInsecurePackages = [
-                "librewolf-bin-151.0.1-2"
-                "librewolf-bin-unwrapped-151.0.1-2"
-              ];
-    
+      "librewolf-bin-151.0.1-2"
+      "librewolf-bin-unwrapped-151.0.1-2"
+    ];
   };
 
   # Enable appimage support
   programs.appimage.enable = true;
 
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-
     # --- SYSTEM & HARDWARE UTILITIES ---
-    asusctl                  # Command-line tool for ASUS features
-    wl-clipboard             # Required for Waydroid clipboard sharing
+    asusctl # Command-line tool for ASUS features
+    wl-clipboard # Required for Waydroid clipboard sharing
     fastfetch
     hyprlauncher
     wineWow64Packages.stable
-    kdePackages.ark  # The core graphical archiving tool
-    unrar            # Unfree utility to unpack .rar files natively
+    kdePackages.ark # The core graphical archiving tool
+    unrar # Unfree utility to unpack .rar files natively
 
     # --- GAMING TOOLS ---
-    lutris                   # Open-source gaming platform
-    protonup-qt              # Graphical UI to easily download Proton-GE / Wine-GE layers for Steam & Lutris
-    mangohud                 # Vulkan/OpenGL performance overlay for monitoring FPS & temperatures
-    vulkan-tools             # Helpful for verification (includes vkcube)
+    lutris # Open-source gaming platform
+    protonup-qt # Graphical UI to easily download Proton-GE / Wine-GE layers for Steam & Lutris
+    mangohud # Vulkan/OpenGL performance overlay for monitoring FPS & temperatures
+    vulkan-tools # Helpful for verification (includes vkcube)
     goverlay
 
-    # --- MOBILE & WEB DEVELOPMENT ---
-    flutter                  # Flutter SDK for app development
-    firebase-tools           # Firebase CLI tool
-    jdk17                    # Frequently required for Flutter android builds
-    android-tools            # Provides adb, fastboot, etc.
+    # ========================================================================================
+    # ================================ DEVELOPMENT ===========================================
+    # ========================================================================================
+
+    # -- Flutter + Firebase + Typrscript ------------------------------------------------
+    flutter # Flutter SDK for app development
+    firebase-tools # Firebase CLI tool
+    jdk17 # Frequently required for Flutter android builds
+    android-tools # Provides adb, fastboot, etc.
     gcc
-    clang-tools              # Installs stable clang-format, clangd, etc.
+    clang-tools # Installs stable clang-format, clangd, etc.
+    llvmPackages.lldb
     tree-sitter
-    stylua
     markdownlint-cli
     gh
     alejandra
     nixd
+    gdb
+
+    # Lua formatter
+    stylua
+
+    # Lua language server
+    lua-language-server
+
+    # -- QML
+    qt6.qtdeclarative
 
     # Language Servers (Installed natively)
     # --- Python ---
     pyright
+    python3
     black
+
+    isort
 
     # --- Java ---
     jdt-language-server
     vscode-extensions.vscjava.vscode-java-debug
-    vscode-extensions.vscjava.vscode-java-test  
+    vscode-extensions.vscjava.vscode-java-test
 
     llvmPackages.clang-tools # Provides clangd for C++
     vscode-langservers-extracted # Contains both css-lsp and html-lsp
-    emmet-ls             # For HTML/CSS emmet support
+    emmet-ls # For HTML/CSS emmet support
+
+    # -- rust + tauri + svelte --------------------------------------------------------------
+    pkg-config
+    gobject-introspection
+    cargo
+    rustc
+    pnpm
+
+    # Language Servers for Neovim
+    rust-analyzer # For high-performance Rust completions
+    typescript-language-server # For type-safe frontend code
+    svelte-language-server # For responsive Svelte reactive layouts
+
+    # ---------------------------------------------------------------------------------------
+
+    # ================================================================================================
 
     # --- TERMINAL, NOTES & BROWSERS ---
     alacritty
-    neovim                   # Your primary IDE/Text Editor
-    
+    neovim # Your primary IDE/Text Editor
+
     # --- MULTIMEDIA ---
-    vlc                      # Media player
-    rmpc                     # Rich Music Player Client (MPD client)
-    mpd                      # Music Player Daemon (if you don't already have it enabled as a service)
+    vlc # Media player
+    rmpc # Rich Music Player Client (MPD client)
+    mpd # Music Player Daemon (if you don't already have it enabled as a service)
 
     # --- GENERAL TOOLS ---
     git
@@ -82,12 +114,12 @@
     nodejs
     gnumake
     nvd # to see report about nix build process
-    
-    #btop
-    (btop.override { cudaSupport = true; }) # with gpu support
 
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    #btop
+    (btop.override {cudaSupport = true;}) # with gpu support
+
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
   ];
 
   # --- GAMING INFRASTRUCTURE ---
@@ -103,14 +135,13 @@
     capSysNice = true;
   };
 
-# --- VIRTUALIZATION & CONTAINERS ---
+  # --- VIRTUALIZATION & CONTAINERS ---
 
   virtualisation.waydroid.enable = true;
   # Newer kernel versions may need
   virtualisation.waydroid.package = pkgs.waydroid-nftables;
 
-  networking.firewall.trustedInterfaces = [ "waydroid0" ];
-
+  networking.firewall.trustedInterfaces = ["waydroid0"];
 
   # Enable Docker Daemon
   virtualisation.docker.enable = true;
@@ -156,10 +187,16 @@
   # Install Virt-Manager GUI tool if you want a visual interface
   programs.virt-manager.enable = true;
 
-  # automatically detect and go into nix shells
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
+  # Ollama
 
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-cuda; # Forced GPU acceleration
+    loadModels = [
+      "qwen3.5:9b" # Swap to the 3.5 agent-native generation
+    ];
+    environmentVariables = {
+      CUDA_CACHE_PATH = "/var/lib/ollama/.nv";
+    };
+  };
 }

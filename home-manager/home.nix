@@ -1,15 +1,17 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./modules/mpd.nix
     ./modules/terminal.nix
     ./modules/apps.nix
-    #./modules/defaults.nix
+    ./modules/defaults.nix
     ./modules/hyprland.nix
-    #./modules/themes.nix
     ./modules/yazi.nix
     ./modules/network.nix
+    ./modules/quickshell.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -29,7 +31,6 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -65,9 +66,9 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-    ".config/hypr".source =  ./dotfiles/hypr;
-    ".config/nvim".source =  ./dotfiles/nvim;
-    ".config/kitty".source =  ./dotfiles/kitty;
-    ".config/waybar".source =  ./dotfiles/waybar;
+    ".config/hypr".source = ./dotfiles/hypr;
+    ".config/nvim".source = ./dotfiles/nvim;
+    ".config/kitty".source = ./dotfiles/kitty;
+    ".config/waybar".source = ./dotfiles/waybar;
   };
 }

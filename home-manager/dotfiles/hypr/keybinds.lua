@@ -103,30 +103,30 @@ hl.bind(mainMod .. " + ALT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/random_
 
 -------- VVVVV Credit : illogical impulse (end-4)
 -- Clipboard history
-hl.bind("SUPER + V", hl.dsp.exec_cmd(
-        qsIsAlive .. " || pkill fuzzel || cliphist list | fuzzel --match-mode fzf --dmenu | cliphist decode | wl-copy"),
-    { description = "Utilities: Clipboard history >> clipboard" })
+--hl.bind("SUPER + V", hl.dsp.exec_cmd(
+--        qsIsAlive .. " || pkill fuzzel || cliphist list | fuzzel --match-mode fzf --dmenu | cliphist decode | wl-copy"),
+--    { description = "Utilities: Clipboard history >> clipboard" })
 
 -- Emoji Keyboard
-hl.bind("SUPER + Period", hl.dsp.exec_cmd(
-        qsIsAlive .. " || pkill fuzzel || " .. hyprScripts .. "/fuzzel-emoji.sh copy"),
-    { description = "Utilities: Emoji >> clipboard" })
+--hl.bind("SUPER + Period", hl.dsp.exec_cmd(
+--        qsIsAlive .. " || pkill fuzzel || " .. hyprScripts .. "/fuzzel-emoji.sh copy"),
+--    { description = "Utilities: Emoji >> clipboard" })
 
 -- Screenshot
-hl.bind("SUPER + SHIFT + S", hl.dsp.global("quickshell:regionScreenshot"), { description = "Utilities: Screen snip" })
+-- hl.bind("SUPER + SHIFT + S", hl.dsp.global("quickshell:regionScreenshot"), { description = "Utilities: Screen snip" })
 hl.bind("SUPER + SHIFT + S",
-    hl.dsp.exec_cmd(qsIsAlive .. " || pidof slurp || hyprshot --freeze --clipboard-only --mode region --silent"))
+    hl.dsp.exec_cmd("pidof slurp || hyprshot --freeze --clipboard-only --mode region --silent"))
     
 -- Google Lens
-hl.bind("SUPER + SHIFT + A", hl.dsp.global("quickshell:regionSearch"), { description = "Utilities: Google Lens" })
-hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd(qsIsAlive .. " || pidof slurp || " .. hyprScripts .. "/snip_to_search.sh"))
+-- hl.bind("SUPER + SHIFT + A", hl.dsp.global("quickshell:regionSearch"), { description = "Utilities: Google Lens" })
+-- hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd(qsIsAlive .. " || pidof slurp || " .. hyprScripts .. "/snip_to_search.sh"))
 
 -- OCR
-hl.bind("SUPER + SHIFT + X", hl.dsp.global("quickshell:regionOcr"),
-    { description = "Utilities: Character recognition >> clipboard" })
-hl.bind("SUPER + SHIFT + T", hl.dsp.global("quickshell:screenTranslate"),
-    { description = "Utilities: Translate screen content" })
-hl.bind("SUPER + SHIFT + X", hl.dsp.exec_cmd(
-    qsIsAlive ..
-    " || pidof slurp || grim -g \"$(slurp $SLURP_ARGS)\" \"/tmp/ocr_image.png\" && tesseract \"/tmp/ocr_image.png\" stdout -l $(tesseract --list-langs | awk 'NR>1{print $1}' | tr '\\\\n' '+' | sed 's/\\\\+$/\\\\n/') | wl-copy && rm \"/tmp/ocr_image.png\""
-))
+--hl.bind("SUPER + SHIFT + X", hl.dsp.global("quickshell:regionOcr"),
+--    { description = "Utilities: Character recognition >> clipboard" })
+--hl.bind("SUPER + SHIFT + T", hl.dsp.global("quickshell:screenTranslate"),
+--    { description = "Utilities: Translate screen content" })
+-- hl.bind("SUPER + SHIFT + X", hl.dsp.exec_cmd(
+--    qsIsAlive ..
+--    " || pidof slurp || grim -g \"$(slurp $SLURP_ARGS)\" \"/tmp/ocr_image.png\" && tesseract \"/tmp/ocr_image.png\" stdout -l $(tesseract --list-langs | awk 'NR>1{print $1}' | tr '\\\\n' '+' | sed 's/\\\\+$/\\\\n/') | wl-copy && rm \"/tmp/ocr_image.png\""
+--))
