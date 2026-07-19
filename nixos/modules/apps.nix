@@ -28,6 +28,7 @@
     wineWow64Packages.stable
     kdePackages.ark # The core graphical archiving tool
     unrar # Unfree utility to unpack .rar files natively
+    winetricks
 
     # --- GAMING TOOLS ---
     lutris # Open-source gaming platform

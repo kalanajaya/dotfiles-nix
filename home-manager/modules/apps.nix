@@ -1,19 +1,15 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
-
-     yazi
-     obsidian                 # Markdown knowledge base application
-     librewolf-bin               # Privacy-focused browser fork of Firefox
-     onlyoffice-desktopeditors
-     discord
-     xournalpp
-     krita
-
-
+    yazi
+    obsidian # Markdown knowledge base application
+    librewolf-bin # Privacy-focused browser fork of Firefox
+    onlyoffice-desktopeditors
+    discord
+    xournalpp
+    krita
+    qbittorrent
   ];
-  
+
   services.syncthing = {
     enable = true;
   };
@@ -25,5 +21,4 @@
     enableBashIntegration = true; # Set to true if you use Bash
     nix-direnv.enable = true;
   };
-
 }

@@ -18,14 +18,14 @@
   home-manager.sharedModules = [
     {
       stylix.targets.ghostty.enable = false;
-      stylix.targets.btop.enable = false;
+      stylix.targets.btop.enable = true;
       stylix.targets.dunst.enable = false;
     }
   ];
 
   # Modern Dark Theme Palette (Pick your favorite below)
   # 1. Catppuccin Mocha (Rich, vibrant dark pastel)
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/purpledream.yaml";
 
   # 2. Tokyo Night Storm (Uncomment this if you prefer a deeper, cool-toned dark blue/grey)
   # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-storm.yaml";

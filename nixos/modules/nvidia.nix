@@ -7,6 +7,8 @@
   # Enable OpenGL
   hardware.graphics = {
     enable = true;
+    # CRITICAL: Proton containers require 32-bit libraries for almost all games
+    enable32Bit = true;
   };
 
   # Load nvidia driver for Xorg and Wayland
@@ -54,6 +56,10 @@
     };
   };
 
+  environment.systemPackages = with pkgs; [
+    vulkan-tools
+    vulkan-loader
+  ];
   # needed for ollama
   hardware.nvidia-container-toolkit.enable = true;
 }
